@@ -17,16 +17,21 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
     public CategoryAdapter(@NonNull Context context, int resource, @NonNull ArrayList<String> objects) {
         super(context, resource, objects);
+
+        // Fills the class wide arraylist with the categories received
         categories = objects;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        // Inflate categorylistitem.xml when converview is null
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.categorylistitem, parent, false);
         }
 
+        // Fills the categorylistitem.xml and returns it
         TextView textView = convertView.findViewById(R.id.categoryView);
         textView.setText(categories.get(position));
         return convertView;

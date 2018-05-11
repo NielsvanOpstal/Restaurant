@@ -2,6 +2,11 @@ package com.example.niels.restaurant;
 
 import java.io.Serializable;
 
+/*
+Makes a MenuItem object which contains the name, description, imageUrl, price and category of the
+menu item
+*/
+
 public class MenuItem implements Serializable {
     private String name;
     private String description;

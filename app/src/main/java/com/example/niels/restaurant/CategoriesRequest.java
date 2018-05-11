@@ -30,12 +30,18 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
 
 
     public CategoriesRequest(Context aContext) {
+
+        // On create loads the context in the class wide variable
         context = aContext;
 
     }
 
     public void getCategories(Callback aActivity) {
+
+        // Loads the activity in the class wide variable
         activity = aActivity;
+
+        // Makes a request queue to get a JSONarray from resto.mrpog.nl containing the categories
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://resto.mprog.nl/categories", null, this, this);
         queue.add(jsonObjectRequest);
@@ -43,6 +49,8 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
 
     @Override
     public void onErrorResponse(VolleyError aError) {
+
+        // If response is error, give the error message back to the activity
         activity.gotCategoriesError(aError.getMessage());
     }
 
@@ -50,6 +58,7 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
     public void onResponse(JSONObject aResponse) {
         ArrayList<String> responses = new ArrayList<>();
 
+        // If got a JSON back, try to put the categories in an arraylist and give it back to activity
         try {
             JSONArray response = aResponse.getJSONArray("categories");
             Log.d("Responses", response.toString());
@@ -60,8 +69,8 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
             }
             activity.gotCategories(responses);
 
-            }
-        catch(JSONException e){
+            } catch(JSONException e){
+            // If JOSNException is thrown, give back an error message to activity
             Log.d("er ging iets mis", e.toString());
         }
 

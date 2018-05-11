@@ -24,18 +24,24 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
     private String category;
 
     public interface Callback {
-        void gotCategories(ArrayList<MenuItem> menuItems);
-        void gotCategoriesError(String message);
+        void gotMenu(ArrayList<MenuItem> menuItems);
+        void gotMenuError(String message);
     }
 
     public MenuRequest(Context aContext, String aCategory) {
+
+        // Fills the context and category classwide variables when MenuRequest is created
         context = aContext;
         category = aCategory;
 
     }
 
     public void getMenu(Callback aActivity) {
+
+        // Fills the class wide variable activity
         activity = aActivity;
+
+        // Creates a requestQueue and tries to receive the the menu items from the clicked category
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://resto.mprog.nl/menu?category=" + category, null, this, this);
         queue.add(jsonObjectRequest);
@@ -43,13 +49,16 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
 
     @Override
     public void onErrorResponse(VolleyError aError) {
-        activity.gotCategoriesError(aError.getMessage());
+
+        // If error response, give the error message back to the activity
+        activity.gotMenuError(aError.getMessage());
     }
 
     @Override
     public void onResponse(JSONObject aResponse) {
         ArrayList<MenuItem> responses = new ArrayList<>();
 
+        // If JSON received, fill responses with the menuItems received and give it back to activity
         try {
             JSONArray response = aResponse.getJSONArray("items");
             Log.d("Responses", response.toString());
@@ -64,10 +73,11 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
                 menuItem.setImageUrl(item.getString("image_url"));
                 responses.add(menuItem);
             }
-            activity.gotCategories(responses);
+            activity.gotMenu(responses);
 
-        }
-        catch(JSONException e){
+        } catch(JSONException e){
+
+            // If JSONException was thrown, lig error
             Log.d("er ging iets mis", e.toString());
         }
 

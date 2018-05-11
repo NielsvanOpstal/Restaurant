@@ -12,30 +12,38 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CategoriesActivity extends AppCompatActivity implements CategoriesRequest.Callback {
-    @Override
-    public void gotCategories(ArrayList<String> categories) {
-        ArrayList<String> listItems = categories;
-        ListView listView = findViewById(R.id.categoriesListView);
-        listView.setAdapter(new CategoryAdapter(this, 0, listItems));
-        listView.setOnItemClickListener(new onItemClickListener());
-    }
-
-    @Override
-    public void gotCategoriesError(String message) {
-        Log.d("TAG", message);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
+        // Creates a new Categories request and requests the categories
         CategoriesRequest request = new CategoriesRequest(this);
         request.getCategories(this);
+    }
+
+    @Override
+    public void gotCategories(ArrayList<String> categories) {
+
+        // if categories received: sets an adapter and an onItemClickListener to the list view
+        ListView listView = findViewById(R.id.categoriesListView);
+        listView.setAdapter(new CategoryAdapter(this, 0, categories));
+        listView.setOnItemClickListener(new onItemClickListener());
+    }
+
+    @Override
+    public void gotCategoriesError(String message) {
+
+        // If error received, print log error
+        Log.d("TAG", message);
     }
 
     private class onItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            // When item is clicked, go to menu activity for the category clicked
             Intent intent = new Intent(CategoriesActivity.this, MenuActivity.class );
             intent.putExtra("category", parent.getItemAtPosition(position).toString());
             startActivity(intent);

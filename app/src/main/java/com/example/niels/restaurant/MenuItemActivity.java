@@ -14,8 +14,10 @@ public class MenuItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menuitemactivity);
 
-        Intent intent = getIntent();
-        MenuItem menuItem = (MenuItem) intent.getSerializableExtra("menuItem");
+        // Gets the serializable form the intent and casts it to a menuItem
+        MenuItem menuItem = (MenuItem) getIntent().getSerializableExtra("menuItem");
+
+        // Gets all the text and imageviews and fills them with correct data from the menuItem
         TextView name = findViewById(R.id.menuItemName);
         TextView description = findViewById(R.id.menuItemDescription);
         TextView price = findViewById(R.id.menuItemPrice);
@@ -24,6 +26,8 @@ public class MenuItemActivity extends AppCompatActivity {
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
         price.setText("€" + Float.toString(menuItem.getPrice()));
+
+        // Picasso is used to set an image form an URL
         Picasso.get().load(menuItem.getImageUrl()).into(image);
 
 
