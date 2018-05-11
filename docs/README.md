@@ -1,13 +1,11 @@
-Friendsr
+Restaurant
 
-28-4-2018
+11-5-2018
 
 Niels van Opstal
 11021519
 
-The app lets you scroll through the people on the app. It is also possible to click on a person to get more 
-info and give him/her a rating.
+The app makes it possible to view the menu of a restaurant.
 
-![alt text](https://github.com/nielske31/Friendsr/tree/master/docs/friendsr1.jpeg)
-![alt text](https://github.com/nielske31/Friendsr/tree/master/docs/friendsr2.jpeg)
+External library: Picasso, used to fill an image view with an image from an url.
 
